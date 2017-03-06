@@ -12,7 +12,7 @@ class ViewerAccount extends React.Component {
       </aside>
     );
   }
-};
+}
 
 export default Relay.createContainer(ViewerAccount, {
   fragments: {
