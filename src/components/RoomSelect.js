@@ -6,18 +6,26 @@ class RoomSelect extends React.Component {
     super(props);
 
     this.state = {roomId: undefined};
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    this.setState({roomId: e.target.value});
+    const roomId = e.target.value;
+
+    this.setState({roomId});
+    this.props.onRoomSelected(this.props.rooms.edges.find(({node}) => node.id == roomId).node);
   }
 
   render() {
-    const options = this.props.rooms.edges.map(({node}) => <option key={node.id} value={node.id}>{node.organization.slug}/{node.name}</option>);
-
     return (
-      <select value={this.state.roomId}>{options}</select>
+      <select value={this.state.roomId} onChange={this.handleChange}>{this.renderOptions()}</select>
     );
+  }
+
+  renderOptions() {
+    return this.props.rooms.edges.map(
+      ({node}) => <option key={node.id} value={node.id}>{node.organization.slug}/{node.name}</option>
+    )
   }
 }
 
@@ -29,11 +37,7 @@ export default Relay.createContainer(RoomSelect, {
           node {
             id
             name
-            organization {
-              id
-              name
-              slug
-            }
+            organization { slug }
           }
         }
       }

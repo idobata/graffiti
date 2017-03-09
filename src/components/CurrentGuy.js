@@ -1,7 +1,7 @@
 import React from 'react';
 import Relay from 'react-relay';
 
-class ViewerAccount extends React.Component {
+class CurrentGuy extends React.Component {
   render() {
     const current_guy = this.props.current_guy;
 
@@ -13,7 +13,7 @@ class ViewerAccount extends React.Component {
   }
 }
 
-export default Relay.createContainer(ViewerAccount, {
+export default Relay.createContainer(CurrentGuy, {
   fragments: {
     current_guy: () => Relay.QL`
       fragment on Guy {
