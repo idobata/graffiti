@@ -7,11 +7,6 @@ export default class extends Relay.Route {
         current_guy
       }
     `,
-    organizations: () => Relay.QL`
-      query {
-        organizations
-      }
-    `,
   };
 
   static routeName = 'AppHomeRoute';

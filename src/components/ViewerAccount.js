@@ -6,9 +6,8 @@ class ViewerAccount extends React.Component {
     const current_guy = this.props.current_guy;
 
     return (
-      <aside>
-        <img src={current_guy.icon_url} alt='' />
-        <span>{current_guy.id}: {current_guy.name}</span>
+      <aside style={{display: 'inline-block'}}>
+        <img src={current_guy.icon_url} alt={current_guy.name} style={{width: '70px', borderRadius: '35px'}} />
       </aside>
     );
   }

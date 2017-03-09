@@ -1,14 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
 import ViewerAccount from './ViewerAccount';
-import OrganizationList from './OrganizationList';
+import RoomSelect from './RoomSelect';
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <ViewerAccount current_guy={this.props.current_guy} />
-        <OrganizationList organizations={this.props.organizations} />
+        <RoomSelect rooms={this.props.current_guy.rooms} />
       </div>
     );
   }
@@ -20,11 +20,10 @@ export default Relay.createContainer(App, {
       fragment on Guy {
         id
         ${ViewerAccount.getFragment('current_guy')}
-      }
-    `,
-    organizations: () => Relay.QL`
-      fragment on OrganizationConnection {
-        ${OrganizationList.getFragment('organizations')}
+
+        rooms(first: 1000) {
+          ${RoomSelect.getFragment('rooms')}
+        }
       }
     `,
   }
