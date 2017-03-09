@@ -7,7 +7,7 @@ import AppHomeRoute from './routes/AppHomeRoute';
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${process.env.IDOBATA_URL}/api/graphql`, {
     headers: {
-      Authorization: `Bearer ${process.env.IDOBATA_API_KEY}`
+      Authorization: `Bearer ${process.env.IDOBATA_API_TOKEN}`
     }
   })
 );

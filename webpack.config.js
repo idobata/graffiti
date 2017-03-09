@@ -20,7 +20,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['IDOBATA_URL', 'IDOBATA_API_KEY']),
+    new webpack.EnvironmentPlugin(['IDOBATA_URL', 'IDOBATA_API_TOKEN']),
     //new webpack.optimize.UglifyJsPlugin()
   ]
 };
