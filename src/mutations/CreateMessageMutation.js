@@ -20,7 +20,7 @@ export default class extends Relay.Mutation {
             sender
             room
             mentions
-            created_at
+            createdAt
           }
         }
       }

@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 
 export default class extends Relay.Route {
   static queries = {
-    current_guy: () => Relay.QL`query { current_guy }`,
+    currentGuy: () => Relay.QL`query { currentGuy }`,
     viewer: () => Relay.QL`query { viewer }`,
   };
 

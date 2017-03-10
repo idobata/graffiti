@@ -43,9 +43,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <CurrentGuy current_guy={this.props.current_guy} />
+        <CurrentGuy currentGuy={this.props.currentGuy} />
         <form onSubmit={this.handleSubmit}>
-          <RoomSelect rooms={this.props.current_guy.rooms} onRoomSelected={this.handleRoomSelected} />
+          <RoomSelect rooms={this.props.currentGuy.rooms} onRoomSelected={this.handleRoomSelected} />
           <textarea value={this.state.draftMessage} onChange={this.handleChange} />
           <input type='submit' value='Send' />
         </form>
@@ -62,10 +62,10 @@ export default Relay.createContainer(App, {
   },
 
   fragments: {
-    current_guy: () => Relay.QL`
+    currentGuy: () => Relay.QL`
       fragment on Guy {
         id
-        ${CurrentGuy.getFragment('current_guy')}
+        ${CurrentGuy.getFragment('currentGuy')}
 
         rooms(first: 1000) {
           ${RoomSelect.getFragment('rooms')}
@@ -74,7 +74,7 @@ export default Relay.createContainer(App, {
     `,
     viewer: () => Relay.QL`
       fragment on Viewer {
-        messages(first: $messageChunkSize, room_id: $roomId) {
+        messages(first: $messageChunkSize, roomId: $roomId) {
           ${MessageList.getFragment('messages')}
         }
       }

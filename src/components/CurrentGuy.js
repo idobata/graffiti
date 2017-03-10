@@ -3,11 +3,11 @@ import Relay from 'react-relay';
 
 class CurrentGuy extends React.Component {
   render() {
-    const current_guy = this.props.current_guy;
+    const currentGuy = this.props.currentGuy;
 
     return (
       <aside style={{display: 'inline-block'}}>
-        <img src={current_guy.icon_url} alt={current_guy.name} style={{width: '70px', borderRadius: '35px'}} />
+        <img src={currentGuy.iconUrl} alt={currentGuy.name} style={{width: '70px', borderRadius: '35px'}} />
       </aside>
     );
   }
@@ -15,11 +15,11 @@ class CurrentGuy extends React.Component {
 
 export default Relay.createContainer(CurrentGuy, {
   fragments: {
-    current_guy: () => Relay.QL`
+    currentGuy: () => Relay.QL`
       fragment on Guy {
         id
         name
-        icon_url
+        iconUrl
       }
     `,
   }
