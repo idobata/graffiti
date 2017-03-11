@@ -4,7 +4,7 @@ import { actionTypes as types } from '../constants';
 const guys = (state = [], action) => {
   switch (action.type) {
     case types.ADD_GUYS:
-      return state.slice().concat(action.guys);
+      return state.concat(action.guys);
     default:
       return state;
   }
@@ -13,7 +13,7 @@ const guys = (state = [], action) => {
 const messages = (state = [], action) => {
   switch (action.type) {
     case types.ADD_MESSAGES:
-      return state.slice().concat(action.messages);
+      return state.concat(action.messages);
     default:
       return state;
   }
