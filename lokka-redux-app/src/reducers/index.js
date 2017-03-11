@@ -28,8 +28,18 @@ const currentGuy = (state = null, action) => {
   }
 }
 
+const currentRoom = (state = null, action) => {
+  switch (action.type) {
+    case types.SET_CURRENT_ROOM:
+      return action.room;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   currentGuy,
+  currentRoom,
   guys,
   messages,
 });

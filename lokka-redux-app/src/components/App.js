@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setupSeed, fetchMessages, sendMessage } from '../actions';
+import { connectEventd, setupSeed, fetchMessages, setCurrentRoom, sendMessage } from '../actions';
 
 import RoomSelect from './RoomSelect';
 import MessageList from './MessageList';
@@ -9,23 +9,17 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {room: undefined, draftMessage: ''};
+    this.state = {draftMessage: ''};
   }
 
   componentDidMount() {
+    this.props.connectEventd();
     this.props.setupSeed();
   }
 
   onRoomSelected(roomId) {
-    const room = this.props.currentGuy.organizations.edges.reduce(
-      (acc, {node}) => acc.concat(node.rooms.edges),
-      []
-    ).find(
-      ({node}) => node.id == roomId
-    ).node;
-
-    this.setState({room});
-    this.props.fetchMessages(room.id);
+    this.props.setCurrentRoom({id: roomId});
+    this.props.fetchMessages(roomId);
   }
 
   handleTextUpdate(e) {
@@ -35,12 +29,12 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    if (!this.state.room) {
+    if (!this.props.currentRoom) {
       alert('Please select a room');
       return;
     }
 
-    this.props.sendMessage({roomId: this.state.room.id, source: this.state.draftMessage});
+    this.props.sendMessage({roomId: this.props.currentRoom.id, source: this.state.draftMessage});
     this.setState({draftMessage: ''});
   }
 
@@ -65,4 +59,4 @@ class App extends Component {
   }
 }
 
-export default connect((state) => state, {setupSeed, fetchMessages, sendMessage})(App)
+export default connect((state) => state, {connectEventd, setupSeed, fetchMessages, setCurrentRoom, sendMessage})(App)
