@@ -5,13 +5,16 @@ import HttpTransport from 'lokka-transport-http';
 
 import RoomSelect from './RoomSelect';
 import MessageList from './MessageList';
-import {
-  setCurrentGuy,
-  fetchMessages,
-  addMessages
-} from '../actions';
+import { setCurrentGuy, fetchMessages, addMessages } from '../actions';
 
 const clientId = String(Math.random());
+const messageEdgeFragment = `
+  fragment on MessageEdge {
+    node {
+      id body sender { name }
+    }
+  }
+`;
 
 class App extends Component {
   constructor(props) {
@@ -80,12 +83,8 @@ class App extends Component {
       query _($roomId: ID!) {
         messages(roomId: $roomId) {
           edges {
-            node {
-              id body sender { name }
-              room {
-                name
-                organization { slug }
-              } } } } }
+            ...${this.state.graphql.createFragment(messageEdgeFragment)}
+          } } }
     `, {roomId: this.state.roomId}).then(
       ({messages}) => this.props.addMessages(messages.edges.map(({node}) => node))
     );
@@ -96,9 +95,8 @@ class App extends Component {
       ($input: CreateMessageInput!) {
         newMessage: createMessage(input: $input) {
           messageEdge {
-            node {
-              id body sender { name }
-            } } } }
+            ...${this.state.graphql.createFragment(messageEdgeFragment)}
+          } } }
     `, {input: message}).then(
       ({newMessage}) => this.props.addMessages([newMessage.messageEdge.node])
     );
@@ -145,7 +143,4 @@ class App extends Component {
   }
 }
 
-export default connect(
-  (state) => state,
-  {setCurrentGuy, fetchMessages, addMessages}
-)(App)
+export default connect((state) => state, {setCurrentGuy, fetchMessages, addMessages})(App)
