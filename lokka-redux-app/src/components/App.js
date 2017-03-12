@@ -116,9 +116,14 @@ class App extends Component {
 
       const message = data.message;
 
-      if (`Room-${window.btoa(message.room_id)}` !== this.state.roomId) { return; }
+      if (window.btoa(`Room-${message.room_id}`) !== this.state.roomId) { return; }
 
-      this.props.addMessages({id: window.btoa(`Message-${message.id}`), body: message.body, sender: {name: message.sender_name}});
+      this.props.addMessages([{
+        id: window.btoa(`Message-${message.id}`),
+        body: message.body,
+        sender: {name: message.sender_name},
+        createdAt: new Date() // TODO: use message.created_at
+      }]);
     });
   }
 
