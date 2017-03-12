@@ -5,7 +5,9 @@ import HttpTransport from 'lokka-transport-http';
 
 import RoomSelect from './RoomSelect';
 import MessageList from './MessageList';
-import { setCurrentGuy, fetchMessages, addMessages } from '../actions';
+import { setCurrentGuy, addMessages } from '../actions';
+
+import _ from '../styles/app.sass';
 
 const clientId = String(Math.random());
 const messageEdgeFragment = `
@@ -143,4 +145,4 @@ class App extends Component {
   }
 }
 
-export default connect((state) => state, {setCurrentGuy, fetchMessages, addMessages})(App)
+export default connect((state) => state, {setCurrentGuy, addMessages})(App)
