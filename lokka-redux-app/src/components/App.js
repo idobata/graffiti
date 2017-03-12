@@ -13,7 +13,7 @@ const clientId = String(Math.random());
 const messageEdgeFragment = `
   fragment on MessageEdge {
     node {
-      id body sender { name }
+      id body sender { name }, createdAt
     }
   }
 `;
@@ -43,8 +43,8 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    if (!this.state.roomId) {
-      alert('Please select a room');
+    if (!this.state.roomId || !this.state.draftMessage) {
+      alert('Please select a room and write message');
       return;
     }
 
@@ -135,7 +135,7 @@ class App extends Component {
         </aside>
         <main>
           <form onSubmit={::this.handleSubmit}>
-            <textarea value={this.state.draftMessage} onChange={::this.handleTextUpdate} />
+            <textarea value={this.state.draftMessage} onChange={::this.handleTextUpdate} placeholder='Write a message...' />
             <input type='submit' value='Send' />
           </form>
           <MessageList messages={this.props.messages} />

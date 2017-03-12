@@ -4,7 +4,11 @@ import { actionTypes as types } from '../constants';
 const messages = (state = [], action) => {
   switch (action.type) {
     case types.ADD_MESSAGES:
-      return state.concat(action.messages);
+      const messages = action.messages.map((data) => {
+        return Object.assign({}, data, {createdAt: new Date(data.createdAt)});
+      });
+
+      return state.concat(messages);
     default:
       return state;
   }
