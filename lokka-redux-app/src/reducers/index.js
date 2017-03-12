@@ -1,15 +1,6 @@
 import { combineReducers } from 'redux';
 import { actionTypes as types } from '../constants';
 
-const guys = (state = [], action) => {
-  switch (action.type) {
-    case types.ADD_GUYS:
-      return state.concat(action.guys);
-    default:
-      return state;
-  }
-}
-
 const messages = (state = [], action) => {
   switch (action.type) {
     case types.ADD_MESSAGES:
@@ -28,18 +19,7 @@ const currentGuy = (state = null, action) => {
   }
 }
 
-const currentRoom = (state = null, action) => {
-  switch (action.type) {
-    case types.SET_CURRENT_ROOM:
-      return action.room;
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   currentGuy,
-  currentRoom,
-  guys,
   messages,
 });
