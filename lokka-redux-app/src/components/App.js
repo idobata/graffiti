@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Lokka from 'lokka';
 import HttpTransport from 'lokka-transport-http';
+import moment from 'moment';
 
 import RoomSelect from './RoomSelect';
 import MessageList from './MessageList';
@@ -118,11 +119,12 @@ class App extends Component {
 
       if (window.btoa(`Room-${message.room_id}`) !== this.state.roomId) { return; }
 
+      console.log(message.body);
       this.props.addMessages([{
         id: window.btoa(`Message-${message.id}`),
         body: message.body,
         sender: {name: message.sender_name},
-        createdAt: new Date() // TODO: use message.created_at
+        createdAt: moment(message.created_at)
       }]);
     });
   }
@@ -133,16 +135,16 @@ class App extends Component {
     if (!currentGuy) { return <div /> };
 
     return (
-      <div>
+      <div id='app'>
         <aside>
           <img src={currentGuy.iconUrl} alt={currentGuy.name} style={{width: '70px', borderRadius: '35px'}} />
-          <RoomSelect currentGuy={currentGuy} onRoomSelected={::this.onRoomSelected} />
-        </aside>
-        <main>
           <form onSubmit={::this.handleSubmit}>
-            <textarea value={this.state.draftMessage} onChange={::this.handleTextUpdate} placeholder='Write a message...' />
+            <RoomSelect currentGuy={currentGuy} onRoomSelected={::this.onRoomSelected} />
+            <input type='text' value={this.state.draftMessage} onChange={::this.handleTextUpdate} placeholder='Write a message...' />
             <input type='submit' value='Send' />
           </form>
+        </aside>
+        <main>
           <MessageList messages={this.props.messages} />
         </main>
       </div>

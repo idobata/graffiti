@@ -38,6 +38,7 @@
     "css-loader": "^0.27.1",
     "lokka": "^1.7.0",
     "lokka-transport-http": "^1.6.1",
+    "moment": "^2.17.1",
     "node-sass": "^4.5.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

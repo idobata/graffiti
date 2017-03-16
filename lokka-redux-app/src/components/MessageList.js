@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class MessageItem extends React.Component {
   render() {
@@ -8,7 +9,7 @@ class MessageItem extends React.Component {
       <div className='message-item'>
         <div className='sender'>{message.sender.name}</div>
         <div className='message-body' dangerouslySetInnerHTML={{__html: message.body}} />
-        <time>{message.createdAt.toString()}</time>
+        <time>{moment(message.createdAt).format('LTS')}</time>
       </div>
     );
   }
