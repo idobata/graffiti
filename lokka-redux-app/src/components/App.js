@@ -56,7 +56,7 @@ class App extends Component {
   setupSeed() {
     this.state.graphql.query(`
       {
-        currentGuy {
+        viewer {
           id name iconUrl
 
           organizations {
@@ -67,7 +67,7 @@ class App extends Component {
                 rooms {
                   edges { node { id name } }
       } } } } } }
-    `).then(({currentGuy}) => this.props.setCurrentGuy(currentGuy));
+    `).then(({viewer}) => this.props.setCurrentGuy(viewer));
   }
 
   createGraphQLClient() {
@@ -84,12 +84,14 @@ class App extends Component {
   loadMessages() {
     this.state.graphql.query(`
       query _($roomId: ID!) {
-        messages(roomId: $roomId) {
-          edges {
-            ...${this.state.graphql.createFragment(messageEdgeFragment)}
-          } } }
+        room: node(id: $roomId) {
+          ... on Room {
+            messages(last: 25) {
+              edges {
+                ...${this.state.graphql.createFragment(messageEdgeFragment)}
+      } } } } }
     `, {roomId: this.state.roomId}).then(
-      ({messages}) => this.props.addMessages(messages.edges.map(({node}) => node))
+      ({room}) => this.props.addMessages(room.messages.edges.map(({node}) => node))
     );
   }
 

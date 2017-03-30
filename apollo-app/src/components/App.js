@@ -5,7 +5,7 @@ import MessageList from './MessageList';
 
 const SeedQuery = gql`
   query SeedQuery {
-    currentGuy {
+    viewer {
       name
       iconUrl
 
@@ -42,14 +42,14 @@ export default class extends Component {
   render() {
     if (this.props.data.loading) { return (<div />); }
 
-    const currentGuy = this.props.data.currentGuy;
+    const viewer = this.props.data.viewer;
 
     return (
       <div>
         <aside style={{display: 'inline-block'}}>
-          <img src={currentGuy.iconUrl} alt={currentGuy.name} style={{width: '70px', borderRadius: '35px'}} />
+          <img src={viewer.iconUrl} alt={viewer.name} style={{width: '70px', borderRadius: '35px'}} />
         </aside>
-        <RoomSelect rooms={currentGuy.rooms} onRoomSelected={::this.onRoomSelected} />
+        <RoomSelect rooms={viewer.rooms} onRoomSelected={::this.onRoomSelected} />
         <MessageList room={this.state.room} />
       </div>
     );

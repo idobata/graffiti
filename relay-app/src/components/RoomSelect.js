@@ -24,7 +24,7 @@ class RoomSelect extends React.Component {
 
   renderOptions() {
     return this.props.rooms.edges.map(
-      ({node}) => <option key={node.id} value={node.id}>{node.organization.slug}/{node.name}</option>
+      ({node}) => <option key={node.id} value={node.id} selected={this.props.selected == node}>{node.organization.slug}/{node.name}</option>
     )
   }
 }

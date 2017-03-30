@@ -6,7 +6,7 @@ export default class extends Relay.Mutation {
   }
 
   getVariables() {
-    return {room_id: this.props.room.id, source: this.props.source};
+    return {roomId: this.props.room.id, source: this.props.source};
   }
 
   getFatQuery() {

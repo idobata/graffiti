@@ -9,7 +9,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {room: undefined, draftMessage: ''};
+    const room = window.history.state && window.history.state.room;
+
+    this.state = {room, draftMessage: ''};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,20 +38,22 @@ class App extends React.Component {
   }
 
   handleRoomSelected(room) {
-    this.setState({room});
-    this.props.relay.setVariables({roomId: room.id});
+    window.history.pushState({room}, room.name, ''); // TODO: URL を変更するには直接きたときにも対応する必要がある
+    window.dispatchEvent(new CustomEvent('roomSelected', {detail: {room}}));
   }
 
   render() {
+    const messages = this.props.room ? this.props.room.messages : this.props.viewer.timeline;
+
     return (
       <div>
-        <CurrentGuy currentGuy={this.props.currentGuy} />
+        <CurrentGuy currentGuy={this.props.viewer} />
         <form onSubmit={this.handleSubmit}>
-          <RoomSelect rooms={this.props.currentGuy.rooms} onRoomSelected={this.handleRoomSelected} />
+          <RoomSelect rooms={this.props.viewer.rooms} selected={this.state.room} onRoomSelected={this.handleRoomSelected} />
           <textarea value={this.state.draftMessage} onChange={this.handleChange} />
           <input type='submit' value='Send' />
         </form>
-        <MessageList messages={this.props.viewer.messages} />
+        <MessageList messages={messages} />
       </div>
     );
   }
@@ -57,12 +61,11 @@ class App extends React.Component {
 
 export default Relay.createContainer(App, {
   initialVariables: {
-    roomId: undefined,
     messageChunkSize: 25
   },
 
   fragments: {
-    currentGuy: () => Relay.QL`
+    viewer: () => Relay.QL`
       fragment on Guy {
         id
         ${CurrentGuy.getFragment('currentGuy')}
@@ -70,11 +73,18 @@ export default Relay.createContainer(App, {
         rooms(first: 1000) {
           ${RoomSelect.getFragment('rooms')}
         }
+
+        timeline(last: $messageChunkSize) {
+          ${MessageList.getFragment('messages')}
+        }
       }
     `,
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        messages(first: $messageChunkSize, roomId: $roomId) {
+    room: () => Relay.QL`
+      fragment on Room {
+        id
+        name
+
+        messages(last: $messageChunkSize) {
           ${MessageList.getFragment('messages')}
         }
       }

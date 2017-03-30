@@ -15,15 +15,17 @@ class MessageItem extends React.Component {
 }
 
 const MessagesQuery = gql`
-  query MessagesQuery($roomId: ID) {
-    viewer {
-      messages(roomId: $roomId) {
-        edges {
-          node {
-            id
-            body
-            sender {
-              name
+  query MessagesQuery($roomId: ID!) {
+    room: node(id: $roomId) {
+      ... on Room {
+        messages(last: 25) {
+          edges {
+            node {
+              id
+              body
+              sender {
+                name
+              }
             }
           }
         }
@@ -40,7 +42,7 @@ export default class extends React.Component {
   render() {
     if (this.props.data.loading) { return (<div />); }
 
-    const messages = this.props.data.viewer.messages.edges.map(({node}) => <MessageItem key={node.id} message={node} />);
+    const messages = this.props.data.room.messages.edges.map(({node}) => <MessageItem key={node.id} message={node} />);
 
     return (
       <div>
