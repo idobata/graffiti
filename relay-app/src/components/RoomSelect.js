@@ -18,13 +18,13 @@ class RoomSelect extends React.Component {
 
   render() {
     return (
-      <select value={this.state.roomId} onChange={this.handleChange}>{this.renderOptions()}</select>
+      <select value={this.state.roomId} onChange={this.handleChange} selected={this.props.selected.id}>{this.renderOptions()}</select>
     );
   }
 
   renderOptions() {
     return this.props.rooms.edges.map(
-      ({node}) => <option key={node.id} value={node.id} selected={this.props.selected == node}>{node.organization.slug}/{node.name}</option>
+      ({node}) => <option key={node.id} value={node.id}>{node.organization.slug}/{node.name}</option>
     )
   }
 }
