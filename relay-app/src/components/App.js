@@ -43,7 +43,7 @@ class App extends React.Component {
   }
 
   render() {
-    const messages = this.props.room ? this.props.room.messages : this.props.viewer.timeline;
+    const messages = this.props.room ? this.props.room.messages : this.props.viewer.messages;
 
     return (
       <div>
@@ -74,7 +74,7 @@ export default Relay.createContainer(App, {
           ${RoomSelect.getFragment('rooms')}
         }
 
-        timeline(last: $messageChunkSize) {
+        messages(last: $messageChunkSize) {
           ${MessageList.getFragment('messages')}
         }
       }

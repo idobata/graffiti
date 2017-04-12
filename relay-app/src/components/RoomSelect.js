@@ -17,8 +17,10 @@ class RoomSelect extends React.Component {
   }
 
   render() {
+    const selected = this.props.selected ? this.props.selected.id : null;
+
     return (
-      <select value={this.state.roomId} onChange={this.handleChange} selected={this.props.selected.id}>{this.renderOptions()}</select>
+      <select value={this.state.roomId} onChange={this.handleChange} selected={selected}>{this.renderOptions()}</select>
     );
   }
 

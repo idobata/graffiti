@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { combineReducers } from 'redux';
 import { actionTypes as types } from '../constants';
 
@@ -5,7 +6,7 @@ const messages = (state = [], action) => {
   switch (action.type) {
     case types.ADD_MESSAGES:
       const messages = action.messages.map((data) => {
-        return Object.assign({}, data, {createdAt: new Date(data.createdAt)});
+        return Object.assign({}, data, {createdAt: moment(data.createdAt)});
       });
 
       return state.concat(messages);
