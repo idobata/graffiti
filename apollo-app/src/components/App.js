@@ -12,13 +12,9 @@ const SeedQuery = gql`
       rooms {
         edges {
           node {
-            id
-            name
-
+            id name
             organization {
-              id
-              name
-              slug
+              id name slug
             }
           }
         }
@@ -50,8 +46,14 @@ export default class extends Component {
           <img src={viewer.iconUrl} alt={viewer.name} style={{width: '70px', borderRadius: '35px'}} />
         </aside>
         <RoomSelect rooms={viewer.rooms} onRoomSelected={::this.onRoomSelected} />
-        <MessageList room={this.state.room} />
+        {this.renderRoom()}
       </div>
     );
+  }
+
+  renderRoom() {
+    if (!this.state.room) { return <div />; }
+
+    return <MessageList room={this.state.room} />;
   }
 }
